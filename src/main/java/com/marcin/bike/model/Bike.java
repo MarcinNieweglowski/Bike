@@ -1,6 +1,5 @@
 package com.marcin.bike.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,19 +16,15 @@ public class Bike {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String userName;
 
     private String email;
 
     private String phone;
 
-    private String model;
-
-    @Column(name = "serial_number")
-    private String serialNumber;
-
-    @Column(name = "purchase_price")
-    private BigDecimal purchasePrice;
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},
+            fetch = FetchType.LAZY)
+    private BikeModel model;
 
     @Column(name = "purchase_date")
     private Date purchaseDate;
@@ -39,9 +34,17 @@ public class Bike {
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             fetch = FetchType.LAZY)
     @JoinTable(name = "bike_to_extras",
-            joinColumns = @JoinColumn(name = "id"),
-            inverseJoinColumns = @JoinColumn(name = "extra_id"))
-    @JsonIgnore
+            joinColumns = {@JoinColumn(name = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "extra_id")})
     private Set<BikeExtras> bikeExtras = new HashSet<>();
 
+    @Override
+    public String toString() {
+        return "Bike id:" + this.id + " name:" + this.userName;
+    }
+
+    @Override
+    public int hashCode () {
+        return this.userName.hashCode() * this.email.hashCode() * this.phone.hashCode();
+    }
 }

@@ -1,6 +1,5 @@
-package com.marcin.bike.service.dto;
+package com.marcin.bike.dto;
 
-import com.marcin.bike.model.BikeExtras;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -13,13 +12,13 @@ public class BikeDTO {
 
     private Long id;
 
-    private String name;
+    private String userName;
 
     private String email;
 
     private String phone;
 
-    private String model;
+    private Long modelId;
 
     private String serialNumber;
 
@@ -29,6 +28,6 @@ public class BikeDTO {
 
     private boolean contact;
 
-    private Set<BikeExtras> bikeExtras = new HashSet<>();
+    private Set<Long> bikeExtras = new HashSet<>();
 
 }

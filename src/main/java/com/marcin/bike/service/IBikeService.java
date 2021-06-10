@@ -11,4 +11,6 @@ public interface IBikeService {
     Bike save(Bike bike);
 
     Bike get(Long id);
+
+    void delete(Long id);
 }

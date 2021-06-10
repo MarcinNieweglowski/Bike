@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class BikeServiceImpl implements IBikeService {
@@ -20,12 +21,18 @@ public class BikeServiceImpl implements IBikeService {
 
     @Override
     public Bike save(Bike bike) {
-        System.out.println(bike);
         return this.bikeRepository.save(bike);
     }
 
     @Override
     public Bike get(Long id) {
-        return this.bikeRepository.getOne(id);
+        return this.bikeRepository.findById(id).get();
+    }
+
+    @Override
+    public void delete(Long id) {
+        Optional<Bike> bike = this.bikeRepository.findById(id);
+        if (bike.isPresent())
+            this.bikeRepository.delete(bike.get());
     }
 }

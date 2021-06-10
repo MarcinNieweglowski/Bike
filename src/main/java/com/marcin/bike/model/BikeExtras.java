@@ -1,6 +1,7 @@
 package com.marcin.bike.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.sun.istack.NotNull;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -21,10 +22,19 @@ public class BikeExtras {
     @Column(name = "purchase_price")
     private BigDecimal purchasePrice;
 
-    @ManyToMany(mappedBy = "bikeExtras",
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-            fetch = FetchType.LAZY)
-    @JsonIgnore
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},
+            fetch = FetchType.LAZY,
+            mappedBy = "bikeExtras")
+    @JsonBackReference
     private Set<Bike> bikes = new HashSet<>();
 
+    @Override
+    public String toString() {
+        return "Bike id:" + this.extraId + " name:" + this.name;
+    }
+
+    @Override
+    public int hashCode () {
+        return this.name.hashCode();
+    }
 }
